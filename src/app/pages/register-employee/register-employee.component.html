@@ -1,1 +1,336 @@
-<p>register-employee works!</p>
+<div class="container">
+    <div class="row">
+    
+        <div class="col-10 mx-auto">
+    
+            <div class="card">
+    
+                <form ngNativeValidate [formGroup]="formEmployee" (ngSubmit)="saveChange()">
+    
+                    <div class="card-header">
+        
+                        <h2 class="card-title">Registrar Empleado</h2>
+        
+                    </div>
+        
+                    <div class="card-body">
+                        
+                        <div class="form-row">
+                            <div class="col">
+        
+                                <label for="formName">
+                                    Nombre<strong>*</strong>
+                                </label>
+                                <input
+                                    id="formName"
+                                    type="text"
+                                    formControlName="name"
+                                    name="name"
+                                    class="form-control"
+                                    #inputName
+                                    [class.is-invalid]="formEmployee.get('name').invalid && (formEmployee.get('name').dirty || formEmployee.get('name').touched)"
+                                    (blur)="generateEmail(inputName, 'name')"
+                                    (input)="uppercaseInputSelected(inputName, 'name')">
+
+                                <div *ngIf="formEmployee.get('name').invalid && formEmployee.get('name').errors && formEmployee.get('name').dirty || formEmployee.get('name').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('name').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('name').hasError('maxlength')">
+                                        La longitud máxima de este campo es {{ formEmployee.get('name').errors.maxlength.requiredLength }} caracteres
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('name').hasError('pattern')">
+                                        Este campo solo permite caracteres de la A-Z, sin acentos, sin la letra Ñ
+                                    </small>
+                                </div>
+        
+                            </div>
+            
+                            <div class="col">
+        
+                                <label for="formOtherName">
+                                    Otros Nombres
+                                </label>
+                                <input
+                                    id="formOtherName"
+                                    type="text"
+                                    formControlName="otherName"
+                                    name="otherName"
+                                    [class.is-invalid]="formEmployee.get('otherName').invalid && (formEmployee.get('otherName').dirty || formEmployee.get('otherName').touched)"
+                                    class="form-control"
+                                    #inputOtherName
+                                    (input)="uppercaseInputSelected(inputOtherName, 'otherName')">
+
+                                <div *ngIf="formEmployee.get('otherName').invalid && formEmployee.get('otherName').errors && formEmployee.get('otherName').dirty || formEmployee.get('otherName').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('otherName').hasError('maxlength')">
+                                        La longitud máxima de este campo es {{ formEmployee.get('otherName').errors.maxlength.requiredLength }} caracteres
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('otherName').hasError('pattern')">
+                                        Este campo solo permite caracteres de la A-Z, sin acentos, sin la letra Ñ
+                                    </small>
+                                </div>
+        
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="col">
+        
+                                <label for="formSurname">
+                                    Primer Apellido<strong>*</strong>
+                                </label>
+                                <input
+                                    id="formSurname"
+                                    type="text"
+                                    formControlName="surname"
+                                    name="surname"
+                                    class="form-control"
+                                    #inputSurname
+                                    [class.is-invalid]="formEmployee.get('surname').invalid && (formEmployee.get('surname').dirty || formEmployee.get('surname').touched)"
+                                    (blur)="generateEmail(inputSurname, 'surname')"
+                                    (input)="uppercaseInputSelected(inputSurname, 'surname', true)">
+
+                                <div *ngIf="formEmployee.get('surname').invalid && formEmployee.get('surname').errors && formEmployee.get('surname').dirty || formEmployee.get('surname').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('surname').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('surname').hasError('maxlength')">
+                                        La longitud máxima de este campo es {{ formEmployee.get('surname').errors.maxlength.requiredLength }} caracteres
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('surname').hasError('pattern')">
+                                        Este campo solo permite caracteres de la A-Z, sin acentos, sin la letra Ñ
+                                    </small>
+                                </div>
+        
+                            </div>
+            
+                            <div class="col">
+        
+                                <label for="formSecongSurname">
+                                    Segundo Apellido<strong>*</strong>
+                                </label>
+                                <input
+                                    id="formSecongSurname"
+                                    type="text"
+                                    formControlName="secondSurname"
+                                    name="secondSurname"
+                                    class="form-control"
+                                    #inputSecondSurname
+                                    [class.is-invalid]="formEmployee.get('secondSurname').invalid && (formEmployee.get('secondSurname').dirty || formEmployee.get('secondSurname').touched)"
+                                    (input)="uppercaseInputSelected(inputSecondSurname, 'secondSurname')">
+
+                                <div *ngIf="formEmployee.get('secondSurname').invalid && formEmployee.get('secondSurname').errors && formEmployee.get('secondSurname').dirty || formEmployee.get('secondSurname').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('secondSurname').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('secondSurname').hasError('maxlength')">
+                                        La longitud máxima de este campo es {{ formEmployee.get('secondSurname').errors.maxlength.requiredLength }} caracteres
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('secondSurname').hasError('pattern')">
+                                        Este campo solo permite caracteres de la A-Z, sin acentos, sin la letra Ñ
+                                    </small>
+                                </div>
+        
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="col">
+        
+                                <label for="formIdType">
+                                    Tipo de identificacion<strong>*</strong>
+                                </label>
+                                <select
+                                    id="formIdType"
+                                    formControlName="idType"
+                                    name="idType"
+                                    [class.is-invalid]="formEmployee.get('idType').invalid && (formEmployee.get('idType').dirty || formEmployee.get('idType').touched)"
+                                    class="form-control">
+
+                                    <option value="" hidden>Selecciona un tipo de identificacion</option>
+                                    <option value="1">Cédula de Ciudadanía</option>
+                                    <option value="2">Cédula de Extranjería</option>
+                                    <option value="3">Pasaporte</option>
+                                    <option value="4">Permiso Especial</option>
+
+                                </select>
+
+                                <div *ngIf="formEmployee.get('idType').invalid && formEmployee.get('idType').errors && formEmployee.get('idType').dirty || formEmployee.get('idType').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('idType').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                </div>
+        
+                            </div>
+            
+                            <div class="col">
+        
+                                <label for="formIdNumber">
+                                    Número de Identificación<strong>*</strong>
+                                </label>
+                                <input
+                                    id="formIdNumber"
+                                    formControlName="idNumber"
+                                    name="idNumber"
+                                    type="text" class="form-control"
+                                    #inputIdNumber
+                                    [class.is-invalid]="formEmployee.get('idNumber').invalid && (formEmployee.get('idNumber').dirty || formEmployee.get('idNumber').touched)"
+                                    (input)="uppercaseInputSelected(inputIdNumber, 'idNumber')">
+
+
+                                <div *ngIf="formEmployee.get('idNumber').invalid && formEmployee.get('idNumber').errors && formEmployee.get('idNumber').dirty || formEmployee.get('idNumber').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('idNumber').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('idNumber').hasError('maxlength')">
+                                        La longitud máxima de este campo es {{ formEmployee.get('idNumber').errors.maxlength.requiredLength }} caracteres
+                                    </small>
+
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('idNumber').hasError('pattern')">
+                                        Este campo solo permite caracteres de la A-Z, sin acentos, sin la letra Ñ
+                                    </small>
+                                </div>
+        
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="col">
+        
+                                <label for="formCountryEmployment">
+                                    País del empleo<strong>*</strong>
+                                </label>
+                                <select
+                                    id="formCountryEmployment"
+                                    formControlName="countryEmployment"
+                                    name="countryEmployment"
+                                    [class.is-invalid]="formEmployee.get('countryEmployment').invalid && (formEmployee.get('countryEmployment').dirty || formEmployee.get('countryEmployment').touched)"
+                                    #selectCountryEmployment
+                                    (change)="generateEmail(selectCountryEmployment, 'countryEmployment')"
+                                    class="form-control">
+                                
+                                    <option value="" hidden>Selecciona un país</option>
+                                    <option value="1">Colombia</option>
+                                    <option value="2">Estados Unidos</option>
+                                
+                                </select>
+
+                                <div *ngIf="formEmployee.get('countryEmployment').invalid && formEmployee.get('countryEmployment').errors && formEmployee.get('countryEmployment').dirty || formEmployee.get('countryEmployment').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('countryEmployment').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                </div>
+        
+                            </div>
+            
+                            <div class="col">
+        
+                                <label for="formEmail">
+                                    Correo electrónico<strong>*</strong>
+                                </label>
+                                <input
+                                    id="formEmail"
+                                    type="text"
+                                    formControlName="email"
+                                    name="email"
+                                    readonly
+                                    class="form-control">
+        
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+
+                            <div class="col">
+        
+                                <label for="formIdType">
+                                    Área<strong>*</strong>
+                                </label>
+                                <select
+                                    id="formArea"
+                                    formControlName="area"
+                                    name="area"
+                                    [class.is-invalid]="formEmployee.get('area').invalid && (formEmployee.get('area').dirty || formEmployee.get('area').touched)"
+                                    class="form-control">
+
+                                    <option value="" hidden>Asignar area a contratar</option>
+                                    <option value="1">Administración</option>
+                                    <option value="2">Financiera</option>
+                                    <option value="3">Compras</option>
+                                    <option value="4">Infraestructura</option>
+                                    <option value="5">Operación</option>
+                                    <option value="6">Talento Humano</option>
+                                    <option value="7">Servicios Varios</option>
+
+                                </select>
+
+                                <div *ngIf="formEmployee.get('idType').invalid && formEmployee.get('idType').errors && formEmployee.get('idType').dirty || formEmployee.get('idType').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('idType').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                </div>
+        
+                            </div>
+
+                        </div>
+
+                        <div class="form-row">
+
+                        </div>
+                    </div>
+        
+                    <div class="card-footer">
+                        
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="mr-auto">
+                                <p class="m-0 font-italic">
+                                    Los campos con <strong>*</strong> son obligatorios
+                                </p>
+                            </div>
+
+                            <button
+                                [disabled]="formEmployee.invalid"
+                                class="btn btn-success ml-auto"
+                                type="submit">Guardar</button>
+                        </div>
+
+        
+                    </div>
+    
+                </form>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+</div>
