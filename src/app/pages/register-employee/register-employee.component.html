@@ -252,7 +252,7 @@
                             <div class="col">
         
                                 <label for="formEmail">
-                                    Correo electrónico<strong>*</strong>
+                                    Correo electrónico
                                 </label>
                                 <input
                                     id="formEmail"
@@ -269,7 +269,7 @@
 
                             <div class="col">
         
-                                <label for="formIdType">
+                                <label for="formArea">
                                     Área<strong>*</strong>
                                 </label>
                                 <select
@@ -290,9 +290,9 @@
 
                                 </select>
 
-                                <div *ngIf="formEmployee.get('idType').invalid && formEmployee.get('idType').errors && formEmployee.get('idType').dirty || formEmployee.get('idType').touched">
+                                <div *ngIf="formEmployee.get('area').invalid && formEmployee.get('area').errors && formEmployee.get('area').dirty || formEmployee.get('area').touched">
                                     <small class="text-danger"
-                                        *ngIf="formEmployee.get('idType').hasError('required')">
+                                        *ngIf="formEmployee.get('area').hasError('required')">
                                         Este campo es requerido.
                                     </small>
 
@@ -300,9 +300,43 @@
         
                             </div>
 
+                            <div class="col">
+                                <label for="formState">
+                                    Estado
+                                </label>
+                                <select
+                                    id="formState"
+                                    formControlName="state"
+                                    name="state"
+                                    [class.is-invalid]="formEmployee.get('state').invalid && (formEmployee.get('state').dirty || formEmployee.get('state').touched)"
+                                    class="form-control">
+
+                                    <option value="" hidden>Seleccionar estado</option>
+                                    <option value="1">Activo</option>
+                                    <option value="2">Inactivo</option>
+
+                                </select>
+
+                                <div *ngIf="formEmployee.get('state').invalid && formEmployee.get('state').errors && formEmployee.get('state').dirty || formEmployee.get('state').touched">
+                                    <small class="text-danger"
+                                        *ngIf="formEmployee.get('state').hasError('required')">
+                                        Este campo es requerido.
+                                    </small>
+
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="form-row">
+                            
+                            <div class="col">
+
+                            </div>
+
+                            <div class="col">
+
+                            </div>
 
                         </div>
                     </div>

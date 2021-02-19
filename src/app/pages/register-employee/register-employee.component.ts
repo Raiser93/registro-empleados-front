@@ -25,8 +25,8 @@ export class RegisterEmployeeComponent implements OnInit {
             countryEmployment: new FormControl('', [Validators.required]),
             email: new FormControl(null, [Validators.required]),
             dateAdmission: new FormControl(),
-            area: new FormControl(),
-            state: new FormControl(),
+            area: new FormControl('', [Validators.required]),
+            state: new FormControl({value: '1', disabled: true}, [Validators.required]),
             registrationDate: new FormControl(),
         });
 
@@ -42,7 +42,7 @@ export class RegisterEmployeeComponent implements OnInit {
 
     generateEmail(input, field: string): void {
         if (field === 'surname') {
-            const surname = this.formEmployee.value.surname;
+            const surname = this.formEmployee.value.surname || '';
             this.formEmployee.controls.surname.patchValue(surname.trim());
         }
 
