@@ -1,0 +1,25 @@
+.main-container {
+    .navbar {
+        color: #fff;
+        height: calc(10vh - 10px);
+        background-color: $color-purple;
+        padding: 5px;
+
+        .sub-nav {
+            height: calc(10vh - 10px);
+        }
+
+        .title-nav {
+            margin-right: auto;
+        }
+
+        .navigations {
+            margin-left: auto;
+            button {
+                margin-left: 5px;
+                margin-right: 5px;
+                color: #fff;
+            }
+        }
+    }
+}
