@@ -22,7 +22,7 @@ export class EmployeesComponent implements OnInit {
         idType: '',
         country: '',
         state: ''
-    }
+    };
 
     constructor(
         public employeeService: EmployeeService
@@ -36,7 +36,7 @@ export class EmployeesComponent implements OnInit {
         this.getEmployees = this.employeeService.loadEmployees(this.fromPage, this.filterSearchEmployee);
     }
 
-    changeFrom(value: number) {
+    changeFrom(value: number): void {
         const from = this.fromPage + value;
         if (from >= this.employeeService.totalRows) {
             return;
@@ -51,19 +51,19 @@ export class EmployeesComponent implements OnInit {
     }
 
 
-    applyFilter() {
+    applyFilter(): void {
         this.fromPage = 0;
         this.getEmployees = this.employeeService.loadEmployees(this.fromPage, this.filterSearchEmployee);
     }
 
-    async deleteEmployee(employee) {
+    async deleteEmployee(employee): Promise<void> {
         try {
             const confirm = await SwalUtils.confirmSwal({
                 title: 'Está seguro de que desea eliminar el empleado?',
                 confirmButtonText: 'Sí',
                 cancelButtonText: 'No'
             });
-            
+
             if (confirm.value) {
                 this.employeeService.deleteEmployee(employee).subscribe(resp => {
                     SwalUtils.swalToast({

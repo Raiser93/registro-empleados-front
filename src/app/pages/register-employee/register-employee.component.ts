@@ -27,6 +27,8 @@ export class RegisterEmployeeComponent implements OnInit {
         idNumber: '-'
     };
 
+    employeeOld: EmployeeModel;
+
     constructor(
         private ngbCalendar: NgbCalendar,
         private dateAdapter: NgbDateAdapter<string>,
@@ -36,20 +38,20 @@ export class RegisterEmployeeComponent implements OnInit {
     ) {
         this.route.params.subscribe(({idType, idNumber}) => {
             if (idType && idNumber) {
-                this.employeeService.loadOneEmployee({idType, idNumber}).subscribe(employee => {
+                this.employeeService.loadOneEmployee({idType, idNumber}).subscribe((employee: EmployeeModel) => {
                     console.log(employee);
-                    this.ids = JSON.parse(JSON.stringify({idType, idNumber}))
+                    this.ids = JSON.parse(JSON.stringify({idType, idNumber}));
                     this.initFormEmployee(employee);
                 }, error => {
                     this.router.navigateByUrl('/');
-                })
+                });
             }
-        })
+        });
     }
 
     ngOnInit(): void {
         const t = this.ngbCalendar.getToday();
-        let today = this.dateAdapter.toModel(t);
+        // let today = this.dateAdapter.toModel(t);
         const date = new Date();
         date.setMonth(date.getMonth() - 1);
 
@@ -59,7 +61,7 @@ export class RegisterEmployeeComponent implements OnInit {
         this.initFormEmployee();
     }
 
-    initFormEmployee(employee?: EmployeeModel) {
+    initFormEmployee(employee?: EmployeeModel): void {
         this.formEmployee = new FormGroup({
             name: new FormControl(null, [Validators.required, Validators.maxLength(20), Validators.pattern(/^[A-Z]+$/)]),
             otherName: new FormControl(null, [Validators.maxLength(50), Validators.pattern(/^[A-Z]+$/)]),
@@ -94,7 +96,7 @@ export class RegisterEmployeeComponent implements OnInit {
                 day: registrationDate.getDate(),
                 month: registrationDate.getMonth() + 1,
                 year: registrationDate.getFullYear()
-            };;
+            };
 
             employee.dateAdmission = this.dateAdapter.toModel({
                 day: dateAdmission.getDate(),
@@ -115,6 +117,7 @@ export class RegisterEmployeeComponent implements OnInit {
                 state: employee.state,
                 registrationDate: employee.registrationDate,
             });
+            this.employeeOld = JSON.parse(JSON.stringify(this.formEmployee.value));
         }
     }
 
@@ -128,19 +131,34 @@ export class RegisterEmployeeComponent implements OnInit {
 
     async generateEmail(input, field: string): Promise<void> {
         try {
-            
+
             if (field === 'surname') {
                 const surname = this.formEmployee.value.surname || '';
                 this.formEmployee.controls.surname.patchValue(surname.trim());
             }
-    
+
             if (field === 'name' || field === 'surname' || field === 'countryEmployment') {
-                if (this.formEmployee.value.name && this.formEmployee.value.surname && this.formEmployee.value.countryEmployment) {
+                let validate = true;
+                if (this.editEmployee && this.employeeOld) {
+                    if (this.formEmployee.value[field] === this.employeeOld[field]) {
+                        validate = false;
+                    }
+                }
+                // tslint:disable-next-line:max-line-length
+                if (this.formEmployee.value.name && this.formEmployee.value.surname && this.formEmployee.value.countryEmployment && validate) {
                     const name = this.formEmployee.value.name.toLowerCase();
                     let surname = this.formEmployee.value.surname.toLowerCase();
                     surname = surname.split(' ').join('');
-                    let email = `${name}.${surname}@${DOMAIN[this.formEmployee.value.countryEmployment]}`;
-    
+                    let email: string;
+
+                    email = `${name}.${surname}@${DOMAIN[this.formEmployee.value.countryEmployment]}`;
+                    if (this.editEmployee) {
+                        if (this.formEmployee.value.countryEmployment !== this.employeeOld.countryEmployment) {
+                            const sEmail = this.formEmployee.value.email.split('@');
+                            email = `${sEmail.slice(0, sEmail.length - 1)}@${DOMAIN[this.formEmployee.value.countryEmployment]}`;
+                        }
+                    }
+
                     SwalUtils.waitingMessage({
                         message: 'Valindando correo'
                     });
@@ -159,6 +177,7 @@ export class RegisterEmployeeComponent implements OnInit {
                     }
                     SwalUtils.forceClosingSwal();
                     this.formEmployee.controls.email.patchValue(email);
+                    this.employeeOld = JSON.parse(JSON.stringify(this.formEmployee.value));
                 }
             }
         } catch (error) {
@@ -168,12 +187,12 @@ export class RegisterEmployeeComponent implements OnInit {
                 icon: 'error',
                 error,
                 origin: `${RegisterEmployeeComponent.name} -> ${this.generateEmail.name}`
-            })
+            });
             this.formEmployee.controls.email.patchValue('');
         }
     }
 
-    async valdiateEmail({email, id}) {
+    async valdiateEmail({email, id}): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.employeeService.valdiateEmail(email, this.ids).subscribe(resp => {
                 console.log(resp);
@@ -206,7 +225,7 @@ export class RegisterEmployeeComponent implements OnInit {
                 SwalUtils.swalToast({
                     message: error,
                     icon: 'error',
-                })
+                });
             });
         } else {
             this.employeeService.createEmployee(employee).subscribe(resp => {
@@ -217,7 +236,7 @@ export class RegisterEmployeeComponent implements OnInit {
                 SwalUtils.swalToast({
                     message: error,
                     icon: 'error',
-                })
+                });
             });
         }
     }
