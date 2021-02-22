@@ -1,0 +1,17 @@
+.table-employee {
+    thead {
+        display: table;
+        width: 100%;
+    }
+
+    tbody {
+        display: block;
+        table-layout: fixed;
+    }
+
+    tr {
+        table-layout: fixed;
+        display: table;
+        width: 100%;
+    }
+}

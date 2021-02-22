@@ -9,7 +9,7 @@
     
                     <div class="card-header">
         
-                        <h2 class="card-title">Registrar Empleado</h2>
+                        <h2 class="card-title">{{ editEmployee ? 'Modificar Empleado' : 'Registrar Empleado'}}</h2>
         
                     </div>
         
@@ -332,9 +332,46 @@
                             
                             <div class="col">
 
+                                <label for="formDateAdmission">
+                                    Fecha de ingreso<strong>*</strong>
+                                </label>
+                                <div class="input-group">
+                                    <input
+                                        id="formDateAdmission"
+                                        type="text"
+                                        formControlName="dateAdmission"
+                                        name="dateAdmission"
+                                        #inputDateAdmission
+                                        autocomplete=false
+                                        readonly
+                                        ngbDatepicker #d="ngbDatepicker"
+                                        [minDate]="minDate"
+                                        [maxDate]="maxDate"
+                                        class="form-control">
+                                    
+                                    <div class="input-group-append">
+    
+                                        <button class="btn btn-outline-secondary calendar" type="button" (click)="d.toggle()">
+                                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        </button>
+    
+                                    </div>
+                                </div>
+
+
                             </div>
 
                             <div class="col">
+
+                                <label for="formRegistrationDate">
+                                    Fecha de registro
+                                </label>
+                                <input
+                                    id="formRegistrationDate"
+                                    type="text"
+                                    formControlName="registrationDate"
+                                    name="registrationDate"
+                                    class="form-control">
 
                             </div>
 
@@ -354,7 +391,7 @@
                             <button
                                 [disabled]="formEmployee.invalid"
                                 class="btn btn-success ml-auto"
-                                type="submit">Guardar</button>
+                                type="submit">{{ editEmployee ? 'Guardar cambios' : 'Guardar' }}</button>
                         </div>
 
         
@@ -368,3 +405,4 @@
     
     </div>
 </div>
+

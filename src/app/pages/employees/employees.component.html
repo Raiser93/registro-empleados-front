@@ -1,1 +1,168 @@
-<p>employees works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h5>Filtros</h5>
+            <form class="row">
+                
+                <div class="col-3">
+
+                    <div class="form-group">
+                        <label for="">Buscar empleado:</label>
+                        <input
+                            [(ngModel)]="filterSearchEmployee.input"
+                            name="input"
+                            type="text"
+                            class="form-control"
+                            placement="bottom"
+                            (ngModelChange)="applyFilter()"
+                            ngbTooltip="Se puede ingresar nombre, otros nombres, primer apellido, segundo apellido, numero de identificacion o correo"
+                            placeholder="Ingresa contenido">
+                    </div>
+
+                </div>
+                <div class="col-3">
+
+                    <div class="form-group">
+                        <label for="">Tipo de Identificación</label>
+                        <select
+                            [(ngModel)]="filterSearchEmployee.idType"
+                            name="idType"
+                            (change)="applyFilter()"
+                            class="form-control">
+                            <option value="">Todos</option>
+                            <option [value]="i + 1" *ngFor="let item of idTypes; let i = index">{{ item }}</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-3">
+
+                    <div class="form-group">
+                        <label for="">País del empleo</label>
+                        <select
+                            [(ngModel)]="filterSearchEmployee.country"
+                            name="country"
+                            (ngModelChange)="applyFilter()"
+                            class="form-control">
+                            <option value="">Todos</option>
+                            <option [value]="i + 1" *ngFor="let item of countries; let i = index">{{ item }}</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="col-3">
+
+                    <div class="form-group">
+                        <label for="">Estado</label>
+                        <select
+                            [(ngModel)]="filterSearchEmployee.state"
+                            name="state"
+                            (ngModelChange)="applyFilter()"
+                            class="form-control">
+                            <option value="">Todos</option>
+                            <option [value]="i + 1" *ngFor="let item of states; let i = index">{{ item }}</option>
+                        </select>
+                    </div>
+
+                </div>
+                
+            </form>
+
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-12">
+            <h5>Empleados</h5>
+            <div class="mw-100 overflow-auto">
+
+                <table class="table text-center">
+    
+                    <thead>
+    
+                        <tr>
+    
+                            <th>Nombre</th>
+                            <th>Otros Nombres</th>
+                            <th>Primer apellido</th>
+                            <th>Segundo apellido</th>
+                            <th>Tipo de Identificación</th>
+                            <th>Número de Identificación</th>
+                            <th>País del empleo</th>
+                            <th>Correo</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+    
+                        </tr>
+    
+                    </thead>
+
+                    <tbody>
+
+                        <tr *ngFor="let employee of (getEmployees | async)">
+                            <td>
+                                {{ employee.name }}
+                            </td>
+                            <td>
+                                {{ employee.otherName }}
+                            </td>
+                            <td>
+                                {{ employee.surname }}
+                            </td>
+                            <td>
+                                {{ employee.secondSurname }}
+                            </td>
+                            <td>
+                                {{ employee.idType | typeIdEmployee }}
+                            </td>
+                            <td>
+                                {{ employee.idNumber }}
+                            </td>
+                            <td>
+                                {{ employee.countryEmployment | countryEmployee }}
+                            </td>
+                            <td>
+                                {{ employee.email }}
+                            </td>
+                            <td>
+                                {{ employee.state | stateEmployee }}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button class="btn btn-success" [routerLink]="['/edit-employee', employee.idType, employee.idNumber]">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger" (click)="deleteEmployee(employee)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+    
+                </table>
+                
+            </div>
+            <div class="w-100">
+
+                <div class="btn-group float-right">
+
+                    <button class="btn btn-info" type="button" (click)="changeFrom(-10)">
+                        <i class="fa fa-arrow-left"></i>
+                    </button>
+                    <div class="btn bg-transparent">{{ employeeService.currentPage }}/{{ employeeService.viewTotal }}</div>
+                    <button class="btn btn-info" type="button" (click)="changeFrom(+10)">
+                        <i class="fa fa-arrow-right"></i>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

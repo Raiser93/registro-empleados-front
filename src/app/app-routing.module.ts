@@ -7,6 +7,7 @@ const routes: Routes = [
     { path: '', redirectTo: 'employees', pathMatch: 'full' },
     { path: 'employees', component: EmployeesComponent },
     { path: 'register-employee', component: RegisterEmployeeComponent },
+    { path: 'edit-employee/:idType/:idNumber', component: RegisterEmployeeComponent },
 ];
 
 @NgModule({
